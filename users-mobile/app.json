@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "users-mobile",
+    "slug": "users-mobile",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "users-mobile"
+}
