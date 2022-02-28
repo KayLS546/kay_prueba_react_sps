@@ -17,7 +17,9 @@ export default function App() {
           .then((response) => {
               const data = response.data.data;
               setUsers(data);
-              setIsLoading(false);
+              setTimeout(() => { 
+                setIsLoading(false);
+              }, 3000);
           }).catch((error) => {
               console.error("Error",error);
           });
@@ -70,7 +72,8 @@ export default function App() {
       (isLoading ? 
       <View style={styles.wrapper}>
           <View style={styles.box}>
-              <Text>Cargando...</Text>
+              <Image style={styles.icon} source={'https://www.iconpacks.net/icons/1/free-user-group-icon-296-thumb.png'} />
+              <Text>Usuarios</Text>
           </View>
       </View>
       :
