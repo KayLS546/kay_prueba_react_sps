@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
-import React from 'react'
-import { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export default function App() {
@@ -10,6 +9,7 @@ export default function App() {
   const [idUser, setIdUser] = useState(0);
   const [user, setUser] = useState([]);
   const [isShowUSer, setIsShowUSer] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
       if(isLoading){
@@ -48,15 +48,33 @@ export default function App() {
       setIsLoading(true);
   };
 
+  const Item = ({ item, onPress }) => (
+    <View style={styles.box_user}>
+      <TouchableOpacity onPress={onPress}>
+        <Image style={styles.stretch} source={item.avatar} />
+        <Text style={styles}>{item.first_name + " " + item.last_name}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+  
+  const renderItem = ({ item }) => {
+    return (
+      <Item
+        item={item}
+        onPress={() => getUSerById(item.id)}
+      />
+    );
+  };
+
   return (
-      isLoading ? 
+      (isLoading ? 
       <View style={styles.wrapper}>
           <View style={styles.box}>
               <Text>Cargando...</Text>
           </View>
       </View>
       :
-      isShowUSer ?
+      (isShowUSer ?
       <View style={styles.wrapper}>
           <View style={styles.btn_icon}>
             <TouchableOpacity onPress={() => { goBack() }}>
@@ -72,22 +90,17 @@ export default function App() {
       </View>
       :
       <View>
-          {
-            users.map((user, index) => 
-              <View key={index}>
-                <View style={styles.container}>
-                  <View style={styles.box_user}>
-                    <Image style={styles.stretch} source={user.avatar} />
-                    <Text style={styles.space_container}>{user.first_name}</Text>
-                    <TouchableOpacity style={styles.button} onPress={() => { getUSerById(user.id) }}>
-                      <Text style={styles.space}>Ver</Text>
-                    </TouchableOpacity>
-                  </View>        
-                </View>
-              </View>
-            )
-          }
+        <View style={styles.container}>
+          <FlatList
+            data={users}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            extraData={selectedId}
+          />
+        </View>
       </View>
+      )
+    )
   )
 }
 
@@ -144,13 +157,13 @@ const styles = StyleSheet.create({
       borderRadius:6
   },
   box_user:{
-      paddingVertical:15,
-      paddingHorizontal:25,
+      paddingVertical:35,
+      paddingHorizontal:45,
       flexDirection:'row',
-      justifyContent:'center',
-      alignItems:'center',
       backgroundColor:'rgba(240,250,220,0.5)',
-      borderRadius:6
+      borderRadius:6,
+      position: 'relative',
+      marginBottom: 10,
   },
   space: {
       paddingLeft: 5,
