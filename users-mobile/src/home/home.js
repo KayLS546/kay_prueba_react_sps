@@ -1,11 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import React from 'react'
 import { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { getUsers, getUserById} from '../module/action';
+import { getUsers, getUserById } from '../module/action';
 
 function Home(props){
 
@@ -15,42 +11,19 @@ function Home(props){
     const [user, setUser] = useState([]);
     const [isShowUSer, setIsShowUSer] = useState(false);
 
-    /*useEffect(() => {
+    useEffect(() => {
         props.getUsers();
-    }, []);
-
-    useEffect(() => {
-        if(isLoading){
-            console.log(props.users);
-            if(props.users){
-                setUsers(props.users);
-                setIsLoading(false);
-            }
-        }
-    }, [isLoading]);*/
-
-    useEffect(() => {
-        if(isLoading){
-            axios.get('https://reqres.in/api/users')
-            .then((response) => {
-                const data = response.data.data;
-                setUsers(data);
-                setIsLoading(false);
-            }).catch((error) => {
-                console.error("Error",error);
-            });
+        if(props.users){
+            setUser(props.users)
         }
     }, [isLoading]);
 
     useEffect(() => {
         if(isShowUSer){
-            axios.get('https://reqres.in/api/users/'+idUser)
-            .then((response) => {
-                setUser(response.data.data);
-                setIsLoading(false);
-            }).catch((error) => {
-                console.error("Error",error);
-            });
+            props.getUSerById(idUser)
+            if(props.user){
+                setUser(props.user)
+            }
         }
     }, [isShowUSer]);
 
@@ -71,7 +44,6 @@ function Home(props){
         <View style={styles.wrapper}>
             <View style={styles.box}>
                 <Text>Cargando...</Text>
-                <StatusBar style="auto" />
             </View>
         </View>
         :
@@ -86,7 +58,6 @@ function Home(props){
                     <Text>Regresar</Text>
                 </TouchableOpacity>
             </View>
-            <StatusBar style="auto" />
         </View>
         :
         <View>
@@ -105,7 +76,6 @@ function Home(props){
                     </View>
                 )
             }
-            <StatusBar style="auto" />
         </View>
     )
 }
