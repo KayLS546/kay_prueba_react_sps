@@ -23,6 +23,13 @@
   color: white !important;
 }
 
+.App-arrow {
+  background-color: #282c34;
+  position: fixed;
+  padding-left: 5%;
+  padding-top: 2%;
+}
+
 .App-container {
   background-color: #282c34;
   align-items: center;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -24,11 +24,13 @@ function App() {
 
   useEffect(() => {
     if(isShowUser){
-      fetch('https://reqres.in/api/users/'+idUser).then((response) => response.json())
+      if(idUser > 0){
+        fetch('https://reqres.in/api/users/'+idUser).then((response) => response.json())
         .then((response) => {
           const data = response.data;
           setUser(data);
-      });
+        });
+      }
     }
   }, [isShowUser]);
 
@@ -53,6 +55,9 @@ function App() {
   ) : isShowUser ? 
   (
     <div className="App">
+      <div className="App-arrow">
+        <img src={'https://img.icons8.com/flat-round/64/000000/arrow-left.png'} alt="go-back" onClick={goBack} />
+      </div>
       <div className="App-header">
         <div className="row">
           <div className="col-lg-12">
@@ -75,7 +80,6 @@ function App() {
                 </tr>
               </tbody>
             </table>
-              <button type="button" className="btn btn-success" onClick={goBack}>Regresar</button>
             </center>
           </div>
         </div>
